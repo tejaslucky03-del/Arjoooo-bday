@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Arjoo! 🎂</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; overflow-x: hidden;
+    font-family: "Trebuchet MS", Arial, sans-serif; color: #64264b;
+    background: linear-gradient(135deg, #fff0f6, #ffe0ec, #fff6d9);
+    text-align: center;
+  }
+  .screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+  .card {
+    width: min(100%, 480px); padding: 28px 22px; border-radius: 28px;
+    background: rgba(255,255,255,.83); border: 1px solid rgba(255,255,255,.9);
+    box-shadow: 0 18px 55px rgba(190, 75, 130, .18);
+  }
+  h1 { color: #d63384; margin: 8px 0 14px; font-size: clamp(2rem, 8vw, 3rem); }
+  h2 { color: #c22573; }
+  p { line-height: 1.65; }
+  .small { font-size: .95rem; color: #8b5872; }
+  input {
+    width: 100%; padding: 14px 16px; border: 2px solid #ffc2dc; border-radius: 14px;
+    font-size: 1.1rem; text-align: center; outline: none; margin: 12px 0;
+    background: #fffafd; color: #64264b;
+  }
+  input:focus { border-color: #d63384; }
+  button {
+    border: 0; border-radius: 999px; padding: 13px 22px; font-size: 1rem;
+    font-weight: bold; color: white; background: linear-gradient(90deg,#f05a9d,#c22573);
+    box-shadow: 0 8px 18px rgba(194,37,115,.22); cursor: pointer;
+  }
+  button:active { transform: scale(.97); }
+  #error { min-height: 24px; color: #b42358; font-size: .92rem; }
+  #birthday { display: none; }
+  .badge { font-size: 3.5rem; }
+  .message { background: #fff2f8; padding: 15px; border-radius: 18px; margin: 12px 0; }
+  .cake-wrap { margin: 22px auto 8px; cursor: pointer; user-select: none; }
+  .cake { position: relative; width: 190px; height: 150px; margin: 0 auto; }
+  .plate { position: absolute; bottom: 3px; left: 0; width: 190px; height: 17px; border-radius: 50%; background: #d6a4c0; }
+  .layer { position: absolute; left: 17px; width: 156px; height: 48px; border-radius: 10px 10px 15px 15px; }
+  .layer.bottom { bottom: 18px; background: #e88ab6; }
+  .layer.top { bottom: 61px; height: 44px; background: #ffc5dc; border-bottom: 9px dotted #fff0f6; }
+  .icing { position: absolute; top: 43px; left: 17px; width: 156px; height: 22px; background: #fff7fb; border-radius: 12px 12px 8px 8px; }
+  .drip { position: absolute; top: 54px; width: 13px; height: 17px; background: #fff7fb; border-radius: 0 0 9px 9px; }
+  .d1 { left: 38px; } .d2 { left: 76px; height: 22px; } .d3 { left: 121px; height: 13px; }
+  .candle { position: absolute; left: 88px; top: 15px; width: 14px; height: 37px; border-radius: 4px; background: repeating-linear-gradient(45deg,#fff 0 5px,#f06ca7 5px 10px); }
+  .flame { position: absolute; left: 87px; top: -7px; width: 16px; height: 23px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #ffb000; box-shadow: 0 0 18px #ffca55; animation: flicker .7s infinite alternate; }
+  .blown .flame { display: none; }
+  @keyframes flicker { from { transform: rotate(-45deg) scale(.9); } to { transform: rotate(-45deg) scale(1.08); } }
+  #cakeHint { color: #b33a79; font-weight: bold; }
+  #surprise { display: none; animation: pop .7s ease both; }
+  @keyframes pop { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: scale(1); } }
+  .heart { position: fixed; bottom: -40px; pointer-events: none; animation: floatUp 6s linear forwards; z-index: 0; }
+  @keyframes floatUp { to { transform: translateY(-110vh) rotate(25deg); opacity: 0; } }
+  .confetti { position: fixed; top: -15px; width: 9px; height: 15px; pointer-events: none; animation: fall 3.2s linear forwards; z-index: 5; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: .2; } }
+  .content { position: relative; z-index: 1; }
+  footer { margin-top: 20px; font-size: .8rem; color: #a16a86; }
+</style>
+</head>
+<body>
+<section class="screen content" id="lockScreen">
+  <div class="card">
+    <div class="badge">🎁💗</div>
+    <p class="small">A little surprise made just for</p>
+    <h1>Arjoo</h1>
+    <p>There's a birthday surprise waiting for you! ✨</p>
+    <p class="small">Enter the secret password to open your gift</p>
+    <form id="passwordForm">
+      <input id="password" type="password" inputmode="numeric" placeholder="Enter password" aria-label="Password" autocomplete="off">
+      <button type="submit">Unlock my surprise 💌</button>
+    </form>
+    <div id="error" aria-live="polite"></div>
+    <footer>Made with 💖 just for you</footer>
+  </div>
+</section>
+
+<section class="screen content" id="birthday">
+  <div class="card">
+    <div class="badge">🎉🎀🎉</div>
+    <p class="small">Today is all about you!</p>
+    <h1>Happy Birthday, Arjoo! 🥳</h1>
+    <p>May all your wishes come true, may your days be full of laughter, and may this new year of your life bring you endless happiness. 💗</p>
+    <div class="message">🌷 You deserve all the beautiful things life has to offer.</div>
+    <div class="message">✨ Keep smiling, keep shining, and never stop chasing your dreams.</div>
+    <div class="message">🧁 May every little moment today give you a reason to smile, and may the year ahead be even more wonderful than you imagine.</div>
+    <h2>Make a birthday wish! 💫</h2>
+    <p>Take a deep breath, make your wish, then tap the cake to blow out the candle.</p>
+    <div class="cake-wrap" id="cakeWrap" role="button" tabindex="0" aria-label="Tap the cake to blow out the candle">
+      <div class="cake" id="cake">
+        <div class="flame"></div>
+        <div class="candle"></div>
+        <div class="icing"></div><div class="drip d1"></div><div class="drip d2"></div><div class="drip d3"></div>
+        <div class="layer top"></div><div class="layer bottom"></div><div class="plate"></div>
+      </div>
+    </div>
+    <p id="cakeHint">👆 Tap the cake to blow out the candle!</p>
+    <div id="surprise">
+      <div class="badge">🎂💖🎊</div>
+      <h2>Your wish is on its way! 🌟</h2>
+      <p>May this candle's little glow turn into a year full of big smiles, lovely surprises, good health, and dreams coming true.</p>
+      <h2>Have the most amazing birthday, Arjoo! 💕</h2>
+      <p>Keep being your wonderful self. The world is brighter with your smile in it! 🌈</p>
+      <p><strong>Lots of happiness, today and always! 🎁</strong></p>
+    </div>
+    <footer>Wishing you a magical birthday ✨</footer>
+  </div>
+</section>
+<script>
+  const form = document.getElementById('passwordForm');
+  const password = document.getElementById('password');
+  const error = document.getElementById('error');
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (password.value === '2010') {
+      document.getElementById('lockScreen').style.display = 'none';
+      document.getElementById('birthday').style.display = 'flex';
+      celebrate();
+    } else {
+      error.textContent = 'Oops! That password is not correct. Try again 💗';
+      password.value = '';
+      password.focus();
+    }
+  });
+  let blown = false;
+  function blowCake() {
+    if (blown) return;
+    blown = true;
+    document.getElementById('cake').classList.add('blown');
+    document.getElementById('cakeHint').textContent = '💨 Candle blown out! Make your wish! 💖';
+    document.getElementById('surprise').style.display = 'block';
+    celebrate();
+  }
+  document.getElementById('cakeWrap').addEventListener('click', blowCake);
+  document.getElementById('cakeWrap').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); blowCake(); }
+  });
+  function celebrate() {
+    const colors = ['#ff69a6','#ffd166','#a78bfa','#7bdff2','#ff8fab','#caffbf'];
+    for (let i = 0; i < 65; i++) {
+      const bit = document.createElement('div');
+      bit.className = 'confetti';
+      bit.style.left = Math.random() * 100 + 'vw';
+      bit.style.background = colors[Math.floor(Math.random() * colors.length)];
+      bit.style.animationDelay = Math.random() * 1.5 + 's';
+      bit.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+      document.body.appendChild(bit);
+      setTimeout(() => bit.remove(), 5000);
+    }
+    for (let i = 0; i < 12; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = ['💗','💕','💖','✨','🌸'][Math.floor(Math.random()*5)];
+      heart.style.left = Math.random()*100 + 'vw';
+      heart.style.fontSize = (18 + Math.random()*20) + 'px';
+      heart.style.animationDelay = Math.random()*3 + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+  }
+</script>
+</body>
+</html>
